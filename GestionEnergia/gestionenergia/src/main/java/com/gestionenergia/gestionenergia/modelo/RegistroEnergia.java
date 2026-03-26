@@ -1,4 +1,4 @@
-package com.gestionenergia.GestionEnergia.modelo;
+package com.gestionenergia.gestionenergia.modelo;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;

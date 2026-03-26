@@ -42,6 +42,58 @@
                 <div class="col-md-6 d-flex align-items-end"><button type="submit" class="btn btn-primary w-100 mt-3" id="btnEnviar">Enviar Datos</button></div>
             </div>
         </form>
+        <div id="contenedor_resultados" style="display: none;">
+            <h1 class="mb-4">Listar elementos</h1>
+            <h3 class="text-primary mt-4 border-bottom pb-2">Máquina Aerotermia</h3>
+            <div class="table-responsive mb-4">
+                <table class="table table-bordered table-striped table-hover">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Fecha</th>
+                            <th>kWh Total</th>
+                            <th>Agua (kW)</th>
+                            <th>Calefacción (kW)</th>
+                            <th>Euros (€)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla_aero"></tbody>
+                </table>
+            </div>
+
+            <h3 class="text-primary mt-4 border-bottom pb-2">Inversor</h3>
+            <div class="table-responsive mb-4">
+                <table class="table table-bordered table-striped table-hover">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Vertida</th>
+                            <th>Consumo Red</th>
+                            <th>Consumo Total</th>
+                            <th>Solar</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla_inv"></tbody>
+                </table>
+            </div>
+
+            <h3 class="text-primary mt-4 border-bottom pb-2">Compañía Eléctrica</h3>
+            <div class="table-responsive mb-4">
+                <table class="table table-bordered table-striped table-hover">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Punta</th>
+                            <th>Llano</th>
+                            <th>Valle</th>
+                            <th>Euros (€)</th>
+                            <th>Vertida</th>
+                            <th>kWh Total</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla_elec"></tbody>
+                </table>
+            </div>
+        </div>
     </div>
 
     <script src="bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js"></script>
@@ -86,6 +138,76 @@
                 }
             })
             .catch(error => console.error('Error:', error));
+        });
+        // Lógica para buscar y listar elementos separados
+        document.getElementById('btnBuscar').addEventListener('click', function() {
+            const mes = document.getElementById('filtro_mes').value;
+            const anio = document.getElementById('filtro_anio').value;
+
+            fetch(`/api/energia/listar?mes=${mes}&anio=${anio}`)
+                .then(response => response.json())
+                .then(datos => {
+                    const contenedorResultados = document.getElementById('contenedor_resultados');
+                    const mensajeVacio = document.getElementById('mensaje_vacio');
+                    
+                    const tbodyAero = document.getElementById('tabla_aero');
+                    const tbodyInv = document.getElementById('tabla_inv');
+                    const tbodyElec = document.getElementById('tabla_elec');
+
+                    // Limpiamos las tablas antes de llenarlas
+                    tbodyAero.innerHTML = '';
+                    tbodyInv.innerHTML = '';
+                    tbodyElec.innerHTML = '';
+
+                    // Si no hay datos, mostramos el mensaje y ocultamos las tablas
+                    if (datos.length === 0) {
+                        contenedorResultados.style.display = 'none';
+                        mensajeVacio.style.display = 'block';
+                        return;
+                    }
+
+                    // Si hay datos, mostramos las tablas y ocultamos el mensaje
+                    contenedorResultados.style.display = 'block';
+                    mensajeVacio.style.display = 'none';
+
+                    // Recorremos los datos y llenamos las 3 tablas
+                    datos.forEach(registro => {
+                        const fecha = `<td class="fw-bold">${registro.fechaRegistro}</td>`;
+
+                        // 1. Fila Aerotermia
+                        tbodyAero.innerHTML += `<tr>
+                            ${fecha}
+                            <td>${registro.aeroKwhTotal || 0}</td>
+                            <td>${registro.aeroAguaKw || 0}</td>
+                            <td>${registro.aeroCalefaccionKw || 0}</td>
+                            <td>${registro.aeroEuros || 0} €</td>
+                        </tr>`;
+
+                        // 2. Fila Inversor
+                        tbodyInv.innerHTML += `<tr>
+                            ${fecha}
+                            <td>${registro.invVertida || 0}</td>
+                            <td>${registro.invConsumoRed || 0}</td>
+                            <td>${registro.invConsumoTotal || 0}</td>
+                            <td>${registro.invSolar || 0}</td>
+                        </tr>`;
+
+                        // 3. Fila Compañía Eléctrica
+                        tbodyElec.innerHTML += `<tr>
+                            ${fecha}
+                            <td>${registro.elecPunta || 0}</td>
+                            <td>${registro.elecLlano || 0}</td>
+                            <td>${registro.elecValle || 0}</td>
+                            <td>${registro.elecEuros || 0} €</td>
+                            <td>${registro.elecVertida || 0}</td>
+                            <td>${registro.elecKwhTotal || 0}</td>
+                        </tr>`;
+                    });
+                })
+                .catch(error => {
+                    console.error('Error al cargar los datos:', error);
+                    alert("Hubo un error al intentar obtener los registros.");
+                });
         });
     </script>
 </body>
