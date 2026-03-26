@@ -1,13 +1,13 @@
-package com.gestionenergia.GestionEnergia;
+package com.gestionenergia.gestionenergia;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class GestionEnergiaApplication {
+public class GestionenergiaApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(GestionEnergiaApplication.class, args);
+		SpringApplication.run(GestionenergiaApplication.class, args);
 	}
 
 }
