@@ -2,8 +2,6 @@ package Modelo;
 
 import Variables.VariablesEurosCE;
 
-import java.util.List;
-
 public class CompaniaElectrica extends DatosComun {
 
     private double punta;

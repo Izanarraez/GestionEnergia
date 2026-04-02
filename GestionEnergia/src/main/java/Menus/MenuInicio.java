@@ -13,19 +13,27 @@ public class MenuInicio {
         boolean salidaMenuInicio = false;
 
         do {
-            System.out.println("1.Mantenimiento");
-            System.out.println("2.Listar elementos");
-            System.out.println("3.Salir");
+            System.out.println("1.Crear excel");
+            System.out.println("2.Añadir elemento");
+            System.out.println("3.Borrar elemento");
+            System.out.println("4.Modificar elemento");
+            System.out.println("5.Mostrar elemento (mes y año)");
+            System.out.println("6.Salir");
 
             int respuesta = Integer.parseInt(sc.nextLine());
 
             switch (respuesta) {
                 case 1:
-                    MenuMantenimiento.MenuMantenimiento();
                     break;
                 case 2:
                     break;
                 case 3:
+                    break;
+                case 4:
+                    break;
+                case 5:
+                    break;
+                case 6:
                     salidaMenuInicio = true;
                     break;
             }
