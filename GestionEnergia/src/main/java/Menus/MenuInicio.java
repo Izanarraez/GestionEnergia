@@ -1,5 +1,7 @@
 package Menus;
 
+import Modelo.ManejoDatos;
+
 import java.util.Scanner;
 
 public class MenuInicio {
@@ -17,8 +19,9 @@ public class MenuInicio {
             System.out.println("2.Añadir elemento");
             System.out.println("3.Borrar elemento");
             System.out.println("4.Modificar elemento");
-            System.out.println("5.Mostrar elemento (mes y año)");
-            System.out.println("6.Salir");
+            System.out.println("4.Modificar variables");
+            System.out.println("6.Mostrar elemento (mes y año)");
+            System.out.println("7.Salir");
 
             int respuesta = Integer.parseInt(sc.nextLine());
 
@@ -26,6 +29,10 @@ public class MenuInicio {
                 case 1:
                     break;
                 case 2:
+
+
+
+
                     break;
                 case 3:
                     break;
@@ -34,6 +41,8 @@ public class MenuInicio {
                 case 5:
                     break;
                 case 6:
+                    break;
+                case 7:
                     salidaMenuInicio = true;
                     break;
             }

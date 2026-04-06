@@ -1,5 +1,7 @@
 package Modelo;
 
+import java.lang.reflect.Field;
+
 public class Inversor extends DatosComun {
 
     private double vertida;
@@ -54,4 +56,5 @@ public class Inversor extends DatosComun {
     public void setConsumoTotal(double consumoTotal) {
         this.consumoTotal = consumoTotal;
     }
+
 }

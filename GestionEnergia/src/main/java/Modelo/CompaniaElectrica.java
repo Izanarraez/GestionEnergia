@@ -1,6 +1,6 @@
 package Modelo;
 
-import Variables.VariablesEurosCE;
+import Variables.Variables;
 
 public class CompaniaElectrica extends DatosComun {
 
@@ -11,7 +11,7 @@ public class CompaniaElectrica extends DatosComun {
     private double vertida;
     private double kwhTotal;
 
-    public CompaniaElectrica(String nombre, String fecha, double punta, double llano, double valle, double euros, double vertida, double kwhTotal, VariablesEurosCE variables) {
+    public CompaniaElectrica(String nombre, String fecha, double punta, double llano, double valle, double vertida, double kwhTotal, Variables variables) {
         super(nombre, fecha);
         this.punta = punta;
         this.llano = llano;
@@ -21,7 +21,7 @@ public class CompaniaElectrica extends DatosComun {
         this.kwhTotal = kwhTotal;
     }
 
-    public CompaniaElectrica(String nombre, double punta, double llano, double valle, double euros, double vertida, double kwhTotal, VariablesEurosCE variables) {
+    public CompaniaElectrica(String nombre, double punta, double llano, double valle, double vertida, double kwhTotal, Variables variables) {
         super(nombre);
         this.punta = punta;
         this.llano = llano;
@@ -79,7 +79,7 @@ public class CompaniaElectrica extends DatosComun {
         this.kwhTotal = kwhTotal;
     }
 
-    private double calculoDeEuros(VariablesEurosCE variables) {
+    private double calculoDeEuros(Variables variables) {
         return ((((this.punta*variables.getEurosPunta())+(this.valle*variables.getEurosValle())
                 +(this.llano*variables.getEurosLlano()))+variables.totalPotencia())-
                 (this.vertida*variables.getEurosExcedentes()))*variables.getIva();

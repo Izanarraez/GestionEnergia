@@ -1,5 +1,7 @@
 package Modelo;
 
+import java.lang.reflect.Field;
+
 public class MaquinaAerotermia extends DatosComun{
 
     private double kwhTotal;
@@ -52,4 +54,5 @@ public class MaquinaAerotermia extends DatosComun{
     public void setEuros(double euros) {
         this.euros = euros;
     }
+
 }
