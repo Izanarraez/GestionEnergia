@@ -5,9 +5,8 @@ public interface IManejoDatos {
     void crearTabla();
     void insertarElemento();
     void eliminarElemento();
-    void dodificarElemento();
+    void modificarElemento();
     void insertarVariables();
     void eliminarVariables();
-    void dodificarVariables();
     void mostrarElementos();
 }

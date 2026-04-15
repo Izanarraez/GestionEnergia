@@ -1,7 +1,5 @@
 package Modelo;
 
-import Variables.Variables;
-
 public class CompaniaElectrica extends DatosComun {
 
     private double punta;

@@ -1,0 +1,17 @@
+Paso 1
+
+Primero hay que crear una tabla, si las tienes ya creada pasa al *Paso 2*.
+
+Paso 2
+
+Insetar las variables, si las tienes inicializadas pasa al *Paso 3*.
+
+Paso 3
+
+Inseta un elemento (Este ya pondra la fecha por defecto y usara las variables definidas anteriormente).
+
+Pasos Opcionales
+
+Para eliminar y modificar, el elemento que se consulte debe existir en las tablas.
+
+Si se usa el mostrar mostrara todos los elementos existentes.
