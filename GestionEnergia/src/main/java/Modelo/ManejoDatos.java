@@ -314,7 +314,7 @@ public class ManejoDatos implements IManejoDatos {
     }
 
     @Override
-    public void mostrarElementos() {
+    public void mostrarElemento() {
         Scanner sc = new Scanner(System.in);
         String archivoExcel = pedirNombreExcel(sc);
         System.out.println("Introduce el mes y año a consultar (MM/yyyy): ");

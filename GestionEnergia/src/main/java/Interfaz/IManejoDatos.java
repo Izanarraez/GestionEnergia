@@ -8,5 +8,5 @@ public interface IManejoDatos {
     void modificarElemento();
     void insertarVariables();
     void eliminarVariables();
-    void mostrarElementos();
+    void mostrarElemento();
 }
