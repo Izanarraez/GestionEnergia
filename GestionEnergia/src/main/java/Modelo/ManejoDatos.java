@@ -15,6 +15,11 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.Scanner;
 
+/**
+ * Implementación de {@link IManejoDatos}.
+ * Encargada de leer, escribir, modificar y estructurar los datos
+ * en el archivo Excel utilizando la librería Apache POI.
+ */
 public class ManejoDatos implements IManejoDatos {
 
     private final String HOJA_REGISTROS = "Registros";
@@ -23,6 +28,13 @@ public class ManejoDatos implements IManejoDatos {
     private final int FILA_CABECERA_VARIABLES = 34; // Fila 32 en Excel
     private final int FILA_VARIABLES = 35;          // Fila 33 en Excel
 
+    /**
+     * Implementa la creación de la estructura base del archivo Excel.
+     * Genera la hoja "Registros", establece las filas de cabeceras en las posiciones
+     * correspondientes (fila 1 para registros, fila 32 para variables) y aplica
+     * estilos visuales (negrita y colores) para diferenciar las secciones.
+     * Si el archivo ya existe, no lo sobrescribe y avisa al usuario.
+     */
     @Override
     public void crearTabla() {
         Scanner sc = new Scanner(System.in);
@@ -83,6 +95,11 @@ public class ManejoDatos implements IManejoDatos {
         }
     }
 
+    /**
+     * Solicita por consola todos los datos de configuración global (nombres de equipos,
+     * tarifas, potencia contratada e IVA) y los escribe exactamente en la fila 33
+     * del archivo Excel, aplicando los estilos de color definidos para cada sección.
+     */
     @Override
     public void insertarVariables() {
         Scanner sc = new Scanner(System.in);
@@ -159,6 +176,10 @@ public class ManejoDatos implements IManejoDatos {
         }
     }
 
+    /**
+     * Accede a la fila 33 del archivo Excel, que está reservada para la configuración,
+     * y elimina su contenido por completo. Si la fila ya estaba vacía, notifica al usuario.
+     */
     @Override
     public void eliminarVariables() {
         Scanner sc = new Scanner(System.in);
@@ -184,6 +205,13 @@ public class ManejoDatos implements IManejoDatos {
         }
     }
 
+    /**
+     * Inserta un nuevo registro de consumo diario en la primera fila vacía disponible
+     * antes de la sección de variables. Solicita los datos numéricos por teclado,
+     * instancia los objetos del modelo correspondientes para realizar los cálculos
+     * automáticos y guarda la información formateada con colores en el Excel.
+     * Requiere que las variables globales estén instanciadas previamente.
+     */
     @Override
     public void insertarElemento() {
         Scanner sc = new Scanner(System.in);
@@ -223,6 +251,11 @@ public class ManejoDatos implements IManejoDatos {
         }
     }
 
+    /**
+     * Solicita una fecha al usuario y busca la fila correspondiente en la zona de registros.
+     * Si la encuentra, elimina la fila completa y desplaza los registros inferiores
+     * hacia arriba para evitar dejar huecos vacíos en la tabla.
+     */
     @Override
     public void eliminarElemento() {
         Scanner sc = new Scanner(System.in);
@@ -268,6 +301,11 @@ public class ManejoDatos implements IManejoDatos {
         }
     }
 
+    /**
+     * Solicita la fecha de un registro existente. Si lo encuentra en el Excel,
+     * vuelve a pedir todos los datos de consumo diario por consola y sobrescribe
+     * la fila encontrada con los nuevos valores, manteniendo los estilos y colores.
+     */
     @Override
     public void modificarElemento() {
         Scanner sc = new Scanner(System.in);
@@ -313,42 +351,78 @@ public class ManejoDatos implements IManejoDatos {
         }
     }
 
+    /**
+     * Busca y muestra por consola todos los datos guardados de un registro específico.
+     * Solicita una fecha exacta y, si la localiza en el Excel, extrae el valor de
+     * las 14 columnas de esa fila para mostrarlas de forma estructurada y legible
+     * divididas por secciones (Aerotermia, Inversor, Compañía Eléctrica).
+     */
     @Override
     public void mostrarElemento() {
         Scanner sc = new Scanner(System.in);
         String archivoExcel = pedirNombreExcel(sc);
-        System.out.println("Introduce el mes y año a consultar (MM/yyyy): ");
-        String filtroFecha = sc.nextLine();
+
+        System.out.print("Introduce la fecha exacta del registro a consultar (dd/MM/yyyy): ");
+        String fechaBuscada = sc.nextLine().trim();
 
         try (FileInputStream fileIn = new FileInputStream(archivoExcel);
              XSSFWorkbook workbook = new XSSFWorkbook(fileIn)) {
 
             XSSFSheet sheet = workbook.getSheet(HOJA_REGISTROS);
-            boolean hayDatos = false;
+            boolean encontrado = false;
 
-            System.out.println("\n--- Registros para " + filtroFecha + " ---");
+            System.out.println("\nBuscando datos para la fecha: " + fechaBuscada + "...\n");
+
+            // Recorremos desde la fila 1 hasta la fila donde empiezan las variables
             for (int i = 1; i < FILA_CABECERA_VARIABLES; i++) {
                 XSSFRow row = sheet.getRow(i);
+
+                // Comprobamos que la fila y la primera celda (Fecha) no sean nulas
                 if (row != null && row.getCell(0) != null) {
                     String fechaCelda = row.getCell(0).getStringCellValue();
 
-                    if (fechaCelda.endsWith(filtroFecha)) {
-                        hayDatos = true;
-                        System.out.println("Fecha: " + fechaCelda);
-                        System.out.println("  MAE -> Kwh Total: " + row.getCell(1).getNumericCellValue() + " | Euros: " + row.getCell(4).getNumericCellValue());
-                        System.out.println("  INV -> Solar: " + row.getCell(8).getNumericCellValue() + " | Consumo Total: " + row.getCell(7).getNumericCellValue());
-                        System.out.println("  CE  -> Kwh Total: " + row.getCell(13).getNumericCellValue() + " | Coste (€): " + row.getCell(14).getNumericCellValue());
-                        System.out.println("-----------------------");
+                    // Si coincide la fecha exacta
+                    if (fechaCelda.equals(fechaBuscada)) {
+                        encontrado = true;
+
+                        System.out.println("==================================================");
+                        System.out.println("        DATOS REGISTRADOS EL: " + fechaCelda);
+                        System.out.println("==================================================");
+
+                        System.out.println("\n[ MÁQUINA AEROTERMIA ]");
+                        System.out.println("  - Kwh Total:       " + row.getCell(1).getNumericCellValue());
+                        System.out.println("  - Agua Kw:         " + row.getCell(2).getNumericCellValue());
+                        System.out.println("  - Kalefacción Kw:  " + row.getCell(3).getNumericCellValue());
+                        System.out.println("  - Coste estimado:  " + row.getCell(4).getNumericCellValue() + " €");
+
+                        System.out.println("\n[ INVERSOR SOLAR ]");
+                        System.out.println("  - Energía Vertida: " + row.getCell(5).getNumericCellValue() + " kWh");
+                        System.out.println("  - Consumo Real:    " + row.getCell(6).getNumericCellValue() + " kWh");
+                        System.out.println("  - Consumo Total:   " + row.getCell(7).getNumericCellValue() + " kWh");
+                        System.out.println("  - Energía Solar:   " + row.getCell(8).getNumericCellValue() + " kWh");
+
+                        System.out.println("\n[ COMPAÑÍA ELÉCTRICA ]");
+                        System.out.println("  - Consumo Punta:   " + row.getCell(9).getNumericCellValue() + " kWh");
+                        System.out.println("  - Consumo Llano:   " + row.getCell(10).getNumericCellValue() + " kWh");
+                        System.out.println("  - Consumo Valle:   " + row.getCell(11).getNumericCellValue() + " kWh");
+                        System.out.println("  - Energía Vertida: " + row.getCell(12).getNumericCellValue() + " kWh");
+                        System.out.println("  - Kwh Total Red:   " + row.getCell(13).getNumericCellValue() + " kWh");
+                        System.out.println("  - Coste Total:     " + row.getCell(14).getNumericCellValue() + " €");
+
+                        System.out.println("==================================================\n");
+
+                        // Como ya hemos encontrado el día, rompemos el bucle
+                        break;
                     }
                 }
             }
 
-            if (!hayDatos) {
-                System.out.println("No hay registros para ese mes/año en este archivo.");
+            if (!encontrado) {
+                System.out.println("❌ No se ha encontrado ningún registro para la fecha proporcionada (" + fechaBuscada + ").");
             }
 
         } catch (Exception e) {
-            System.out.println("Error al leer elementos: " + e.getMessage());
+            System.out.println("Error al leer el archivo Excel: " + e.getMessage());
         }
     }
 
@@ -356,12 +430,27 @@ public class ManejoDatos implements IManejoDatos {
     //            MÉTODOS AUXILIARES
     // ==========================================
 
+    // (Aquí iría {@inheritDoc} en los métodos implementados de la interfaz si quieres omitir reescribirlos,
+    // pero te documento los métodos privados auxiliares que son propios de esta clase:)
+
+    /**
+     * Solicita al usuario el nombre del archivo y le añade la extensión correspondiente.
+     *
+     * @param sc Scanner para leer la entrada por consola.
+     * @return El nombre completo del archivo con la extensión .xlsx.
+     */
     private String pedirNombreExcel(Scanner sc) {
         System.out.print("\nIntroduce el nombre del archivo Excel a utilizar (sin añadir .xlsx): ");
         String nombre = sc.nextLine().trim();
         return nombre + ".xlsx";
     }
 
+    /**
+     * Lee el Excel especificado y extrae las variables de configuración guardadas en la fila 33.
+     *
+     * @param archivoExcel Ruta o nombre del archivo Excel a leer.
+     * @return Objeto {@link Variables} con los datos recuperados, o null si no se encuentran.
+     */
     private Variables obtenerVariablesDelExcel(String archivoExcel) {
         try (FileInputStream fileIn = new FileInputStream(archivoExcel);
              XSSFWorkbook workbook = new XSSFWorkbook(fileIn)) {
@@ -391,6 +480,13 @@ public class ManejoDatos implements IManejoDatos {
         }
     }
 
+    /**
+     * Busca la primera fila vacía en la sección de registros (antes de la zona de variables)
+     * para saber dónde insertar el nuevo dato diario.
+     *
+     * @param sheet La hoja de cálculo donde buscar.
+     * @return El índice de la primera fila libre, o -1 si no hay espacio.
+     */
     private int buscarFilaVaciaRegistros(XSSFSheet sheet) {
         for (int i = 1; i < FILA_CABECERA_VARIABLES; i++) {
             XSSFRow row = sheet.getRow(i);
@@ -401,6 +497,16 @@ public class ManejoDatos implements IManejoDatos {
         return -1;
     }
 
+    /**
+     * Pide al usuario todos los datos numéricos de los equipos, crea los objetos correspondientes
+     * y los escribe aplicando estilos en la fila del Excel indicada.
+     *
+     * @param sc Scanner para la entrada de datos.
+     * @param workbook El libro de Excel actual (para generar estilos).
+     * @param row La fila específica donde se van a escribir los datos.
+     * @param fecha La fecha del registro que se está insertando o modificando.
+     * @param vars Las variables de configuración vigentes.
+     */
     private void escribirDatosRegistro(Scanner sc, XSSFWorkbook workbook, XSSFRow row, String fecha, Variables vars) {
         // --- PREPARAR LOS ESTILOS DE COLORES Y NEGRITA ---
         XSSFCellStyle estiloFecha = crearEstilo(workbook, true, null); // Fecha en negrita
@@ -462,7 +568,12 @@ public class ManejoDatos implements IManejoDatos {
 
     /**
      * Método auxiliar que crea y devuelve un estilo para las celdas de Excel.
-     * Permite activar negrita y aplicar un color de fondo fácilmente.
+     * Permite activar texto en negrita y aplicar un color de fondo.
+     *
+     * @param workbook El libro de Excel sobre el que se aplica el estilo.
+     * @param isBold True si se desea fuente en negrita, False en caso contrario.
+     * @param color El color indexado de POI ({@link IndexedColors}) para el fondo, o null para sin color.
+     * @return El estilo de celda configurado ({@link XSSFCellStyle}).
      */
     private XSSFCellStyle crearEstilo(XSSFWorkbook workbook, boolean isBold, IndexedColors color) {
         XSSFCellStyle style = workbook.createCellStyle();

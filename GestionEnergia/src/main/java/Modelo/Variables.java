@@ -1,5 +1,9 @@
 package Modelo;
 
+/**
+ * Almacena la configuración global, los precios de las tarifas eléctricas y los nombres de los equipos.
+ * Estos datos se persisten en el archivo Excel y sirven de base para calcular los costes monetarios.
+ */
 public class Variables {
 
     private String nombreMaquinaAerotermia;
@@ -17,6 +21,9 @@ public class Variables {
     private double eurosExcedentes;
     private double iva;
 
+    /**
+     * Constructor por defecto que inicializa todos los valores numéricos a 0 y las cadenas vacías.
+     */
     public Variables() {
         this.nombreMaquinaAerotermia = "";
         this.nombreInversor = "";
@@ -31,6 +38,21 @@ public class Variables {
         this.iva = 0.0;
     }
 
+    /**
+     * Constructor parametrizado con todos los datos de configuración de tarifas y potencias.
+     *
+     * @param nombreMaquinaAerotermia Nombre designado para la Aerotermia.
+     * @param nombreInversor Nombre designado para el Inversor.
+     * @param nombreCompaniaElectrica Nombre de la compañía eléctrica contratada.
+     * @param eurosPunta Precio del kWh en hora punta.
+     * @param eurosLlano Precio del kWh en hora llano.
+     * @param eurosValle Precio del kWh en hora valle.
+     * @param potenciaContratada Potencia eléctrica contratada (kW).
+     * @param eurosPotenciaPunta Precio del kW de potencia en periodo punta.
+     * @param eurosPotenciaValle Precio del kW de potencia en periodo valle.
+     * @param eurosExcedentes Precio al que se compensa el kWh excedente vertido.
+     * @param iva Impuesto sobre el Valor Añadido a aplicar (ej. 0.21 para 21%).
+     */
     public Variables(String nombreMaquinaAerotermia,String nombreInversor,String nombreCompaniaElectrica,double eurosPunta, double eurosLlano,
                      double eurosValle, double potenciaContratada, double eurosPotenciaPunta, double eurosPotenciaValle, double eurosExcedentes, double iva) {
         this.nombreMaquinaAerotermia = nombreMaquinaAerotermia;
@@ -134,6 +156,11 @@ public class Variables {
         this.iva = iva;
     }
 
+    /**
+     * Calcula el coste fijo de la potencia contratada sumando los tramos punta y valle.
+     *
+     * @return Coste total diario/mensual de la potencia contratada sin IVA.
+     */
     public double totalPotencia(){
         return (this.potenciaContratada*1*this.eurosPotenciaPunta)+
                 (this.potenciaContratada*1*this.eurosPotenciaValle);

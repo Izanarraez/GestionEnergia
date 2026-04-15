@@ -5,8 +5,20 @@ import Modelo.ManejoDatos;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 
+/**
+ * Clase orientada a la ejecución de pruebas automatizadas y de integración.
+ * Simula la entrada de usuario por teclado para probar la creación, inserción
+ * y lectura en el Excel de forma desatendida.
+ */
 public class BateriaDePruebas {
 
+    /**
+     * Método de ejecución de las pruebas automatizadas.
+     * Borra el archivo previo (si existe) y ejecuta las pruebas de creación,
+     * variables, inserción de elementos y lectura secuencialmente.
+     *
+     * @param args Argumentos de la línea de comandos (no utilizados).
+     */
     public static void main(String[] args) {
         System.out.println("🚀 INICIANDO BATERÍA DE PRUEBAS AUTOMATIZADA...\n");
 
@@ -67,7 +79,7 @@ public class BateriaDePruebas {
         String inputMostrar = nombreExcelPrueba + "\n" + "04/2026\n"; // Archivo y Filtro
 
         simularTeclado(inputMostrar);
-        manejo.mostrarElementos();
+        manejo.mostrarElemento();
         System.out.println("✅ Prueba 4 superada.\n");
 
 
@@ -77,7 +89,9 @@ public class BateriaDePruebas {
 
     /**
      * Método auxiliar que engaña a la consola (System.in) inyectando
-     * un texto predefinido como si el usuario lo hubiera escrito.
+     * un texto predefinido como si el usuario lo hubiera escrito físicamente en el teclado.
+     *
+     * @param datosSimulados Cadena de texto con todas las respuestas separadas por saltos de línea (\n).
      */
     private static void simularTeclado(String datosSimulados) {
         System.setIn(new ByteArrayInputStream(datosSimulados.getBytes()));

@@ -2,6 +2,10 @@ package Modelo;
 
 import java.lang.reflect.Field;
 
+/**
+ * Representa los datos de generación, vertido y consumo registrados por el Inversor solar.
+ * Hereda de {@link DatosComun}.
+ */
 public class Inversor extends DatosComun {
 
     private double vertida;
@@ -9,6 +13,16 @@ public class Inversor extends DatosComun {
     private double consumoTotal;
     private double solar;
 
+    /**
+     * Constructor con fecha explícita para el Inversor.
+     *
+     * @param nombre Nombre identificativo del Inversor.
+     * @param fecha Fecha del registro.
+     * @param vertida Energía vertida a la red eléctrica (kWh).
+     * @param consumoReal Consumo real de la vivienda en ese momento (kWh).
+     * @param consumoTotal Consumo total acumulado (kWh).
+     * @param solar Energía generada por las placas solares (kWh).
+     */
     public Inversor(String nombre, String fecha, double vertida, double consumoReal, double consumoTotal, double solar) {
         super(nombre, fecha);
         this.vertida = vertida;
@@ -17,6 +31,15 @@ public class Inversor extends DatosComun {
         this.solar = solar;
     }
 
+    /**
+     * Constructor con fecha automática (día actual) para el Inversor.
+     *
+     * @param nombre Nombre identificativo del Inversor.
+     * @param vertida Energía vertida a la red eléctrica (kWh).
+     * @param consumoReal Consumo real de la vivienda en ese momento (kWh).
+     * @param consumoTotal Consumo total acumulado (kWh).
+     * @param solar Energía generada por las placas solares (kWh).
+     */
     public Inversor(String nombre, double vertida, double consumoReal, double consumoTotal, double solar) {
         super(nombre);
         this.vertida = vertida;

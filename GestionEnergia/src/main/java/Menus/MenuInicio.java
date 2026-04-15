@@ -5,12 +5,23 @@ import Modelo.ManejoDatos;
 
 import java.util.Scanner;
 
+/**
+ * Clase encargada de mostrar la interfaz de consola interactiva al usuario,
+ * permitiéndole navegar por las distintas opciones del programa.
+ */
 public class MenuInicio {
 
     static Scanner sc = new Scanner(System.in);
 
+    /**
+     * Constructor por defecto de la clase MenuInicio.
+     */
     public MenuInicio() {}
 
+    /**
+     * Inicia un bucle que muestra el menú principal por consola, captura la opción
+     * elegida por el usuario y ejecuta la operación correspondiente a través de {@link IManejoDatos}.
+     */
     public static void menuInicio() {
 
         boolean salidaMenuInicio = false;
@@ -48,7 +59,7 @@ public class MenuInicio {
                         manejoDatos.insertarElemento();
                         break;
                     case 5:
-                        manejoDatos.mostrarElementos();
+                        manejoDatos.mostrarElemento();
                         break;
                     case 6:
                         manejoDatos.modificarElemento();
