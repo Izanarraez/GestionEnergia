@@ -1,4 +1,4 @@
-package Variables;
+package Modelo;
 
 public class Variables {
 
@@ -17,6 +17,20 @@ public class Variables {
     private double eurosExcedentes;
     private double iva;
 
+    public Variables() {
+        this.nombreMaquinaAerotermia = "";
+        this.nombreInversor = "";
+        this.nombreCompaniaElectrica = "";
+        this.eurosPunta = 0.0;
+        this.eurosLlano = 0.0;
+        this.eurosValle = 0.0;
+        this.potenciaContratada = 0.0;
+        this.eurosPotenciaPunta = 0.0;
+        this.eurosPotenciaValle = 0.0;
+        this.eurosExcedentes = 0.0;
+        this.iva = 0.0;
+    }
+
     public Variables(String nombreMaquinaAerotermia,String nombreInversor,String nombreCompaniaElectrica,double eurosPunta, double eurosLlano,
                      double eurosValle, double potenciaContratada, double eurosPotenciaPunta, double eurosPotenciaValle, double eurosExcedentes, double iva) {
         this.nombreMaquinaAerotermia = nombreMaquinaAerotermia;
@@ -30,21 +44,6 @@ public class Variables {
         this.eurosPotenciaValle = eurosPotenciaValle;
         this.eurosExcedentes = eurosExcedentes;
         this.iva = iva;
-    }
-
-    public Variables(String nombreMaquinaAerotermia,String nombreInversor,String nombreCompaniaElectrica,double eurosPunta, double eurosLlano,
-                     double eurosValle, double potenciaContratada, double eurosPotenciaPunta, double eurosPotenciaValle, double eurosExcedentes) {
-        this.nombreMaquinaAerotermia = nombreMaquinaAerotermia;
-        this.nombreInversor = nombreInversor;
-        this.nombreCompaniaElectrica = nombreCompaniaElectrica;
-        this.eurosPunta = eurosPunta;
-        this.eurosLlano = eurosLlano;
-        this.eurosValle = eurosValle;
-        this.potenciaContratada = potenciaContratada;
-        this.eurosPotenciaPunta = eurosPotenciaPunta;
-        this.eurosPotenciaValle = eurosPotenciaValle;
-        this.eurosExcedentes = eurosExcedentes;
-        this.iva = 0.21;
     }
 
     public String getNombreCompaniaElectrica() {

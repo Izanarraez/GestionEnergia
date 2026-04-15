@@ -1,6 +1,7 @@
 package Modelo;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class DatosComun {
 
@@ -14,7 +15,8 @@ public class DatosComun {
 
     public DatosComun(String nombre) {
         this.nombre = nombre;
-        this.fecha = new Date().toString();
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        this.fecha = LocalDate.now().format(formato);
     }
 
     public String getNombre() {
