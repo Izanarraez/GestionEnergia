@@ -8,7 +8,7 @@ Insetar las variables, si las tienes inicializadas pasa al *Paso 3*.
 
 Paso 3
 
-Inseta un elemento (Este ya pondra la fecha por defecto y usara las variables definidas anteriormente).
+Inseta un elemento (Introduce la fecha actual y usara las variables definidas anteriormente).
 
 Pasos Opcionales
 
